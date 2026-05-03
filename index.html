@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Okpara Kenneth Chinonso — AI Automation Engineer</title>
+  <meta name="description" content="AI & Automation Engineer building end-to-end intelligent workflows with n8n, Make.com, OpenAI, and modern APIs." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0A0A0F;
+      --bg2: #111118;
+      --bg3: #16161F;
+      --border: rgba(255,255,255,0.07);
+      --border2: rgba(255,255,255,0.12);
+      --accent: #00E5C3;
+      --accent2: #0091FF;
+      --text: #F0F0F5;
+      --text2: #9090A8;
+      --text3: #5A5A70;
+      --card: #13131C;
+      --radius: 12px;
+      --radius-sm: 6px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.4;
+    }
+
+    /* ── GRID BG ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.03em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex; gap: 2rem; list-style: none;
+    }
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text2);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: var(--accent);
+      color: #0A0A0F;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text2); border-radius: 2px; transition: 0.3s; }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 120px 5% 80px;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .hero-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0; animation: fadeUp 0.7s 0.1s forwards;
+    }
+    .hero-tag::before {
+      content: '';
+      display: inline-block; width: 28px; height: 1px;
+      background: var(--accent);
+    }
+    h1.hero-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(32px, 7vw, 10px);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      margin-bottom: 0.3em;
+      opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+    }
+    h1.hero-name em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(18px, 3vw, 28px);
+      font-weight: 600;
+      color: var(--text2);
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.7s 0.3s forwards;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text2);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+    .hero-btns {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.7s 0.5s forwards;
+    }
+    .btn-primary {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      background: var(--accent);
+      color: #0A0A0F;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-secondary {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      background: transparent;
+      color: var(--text2);
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border2);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+    .hero-stats {
+      display: flex; gap: 2.5rem; margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      opacity: 0; animation: fadeUp 0.7s 0.6s forwards;
+    }
+    .hero-stat-n {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px; font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .hero-stat-l {
+      font-size: 12px;
+      color: var(--text3);
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 4px;
+    }
+
+    /* ── GLOW ── */
+    .glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-1 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(0,229,195,0.08) 0%, transparent 70%);
+      top: 10%; right: -5%;
+    }
+    .glow-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(0,145,255,0.06) 0%, transparent 70%);
+      top: 40%; right: 20%;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative; z-index: 1;
+      padding: 100px 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block; width: 20px; height: 1px;
+      background: var(--accent);
+    }
+    h2.section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      color: var(--text2);
+      font-size: 15px;
+      max-width: 500px;
+      line-height: 1.7;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 3rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--text2);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+      font-size: 15px;
+    }
+    .about-text p strong { color: var(--text); }
+    .about-cards {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .about-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      display: flex; align-items: flex-start; gap: 14px;
+      transition: border-color 0.2s;
+    }
+    .about-card:hover { border-color: var(--border2); }
+    .about-card-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .about-card-icon.teal { background: rgba(0,229,195,0.1); }
+    .about-card-icon.blue { background: rgba(0,145,255,0.1); }
+    .about-card-icon.amber { background: rgba(255,171,0,0.1); }
+    .about-card-title { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 3px; }
+    .about-card-desc { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); max-width: 100%; padding: 100px 5%; }
+    #skills > * { max-width: 1200px; margin-left: auto; margin-right: auto; }
+    .skills-inner { max-width: 1200px; margin: 0 auto; }
+    .skills-groups {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .skill-group-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .skill-pills {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .skill-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      background: var(--bg3);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .skill-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: flex; flex-direction: column; gap: 20px;
+      margin-top: 3rem;
+    }
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .project-card:hover { border-color: var(--border2); }
+    .project-header {
+      display: flex; align-items: flex-start;
+      gap: 16px;
+      padding: 1.5rem 1.75rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .project-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text3);
+      padding-top: 3px;
+      min-width: 24px;
+    }
+    .project-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .project-icon.lead  { background: rgba(0,145,255,0.12); }
+    .project-icon.crypto{ background: rgba(0,229,195,0.12); }
+    .project-icon.ai    { background: rgba(139,92,246,0.12); }
+    .project-icon.ltc   { background: rgba(255,171,0,0.12); }
+    .project-info { flex: 1; min-width: 0; }
+    .project-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 17px; font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      margin-bottom: 5px;
+    }
+    .project-brief {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+    .project-toggle {
+      font-size: 18px;
+      color: var(--text3);
+      transition: transform 0.25s, color 0.2s;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .project-toggle.open { transform: rotate(45deg); color: var(--accent); }
+    .project-body {
+      display: none;
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 1.75rem;
+      animation: fadeIn 0.2s ease;
+    }
+    .project-body.open { display: block; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+    .project-stack {
+      display: flex; flex-wrap: wrap; gap: 7px;
+      margin-bottom: 1.25rem;
+    }
+    .p-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 4px;
+      border: 1px solid var(--border2);
+      color: var(--text3);
+      background: var(--bg3);
+    }
+    .project-bullets {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+    .project-bullets li {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.65;
+      padding-left: 18px;
+      position: relative;
+    }
+    .project-bullets li::before {
+      content: '';
+      position: absolute; left: 0; top: 9px;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .project-bullets li strong { color: var(--text); font-weight: 500; }
+    .project-tags {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+    .p-tag {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .p-tag.blue   { background: rgba(0,145,255,0.12); color: #4DA8FF; }
+    .p-tag.teal   { background: rgba(0,229,195,0.12); color: var(--accent); }
+    .p-tag.purple { background: rgba(139,92,246,0.12); color: #A78BFA; }
+    .p-tag.amber  { background: rgba(255,171,0,0.12);  color: #FFAB00; }
+    .p-tag.red    { background: rgba(255,80,80,0.12);  color: #FF8080; }
+    .project-flow {
+      display: grid;
+      grid-template-columns: repeat(11, 1fr);
+      gap: 5px;
+      margin-bottom: 1rem;
+    }
+    .flow-box {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 4px;
+      text-align: center;
+    }
+    .flow-box-n { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text3); }
+    .flow-box-l { font-size: 10px; font-weight: 600; color: var(--text); margin-top: 2px; }
+    .project-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px;
+      border: 1px solid rgba(0,229,195,0.25);
+      border-radius: var(--radius-sm);
+      transition: background 0.2s;
+    }
+    .project-link:hover { background: rgba(0,229,195,0.07); }
+
+    /* ── PIPELINE VIZ ── */
+    .pipeline {
+      display: flex; align-items: center; gap: 0;
+      overflow-x: auto;
+      margin: 1.25rem 0;
+      padding-bottom: 4px;
+    }
+    .pipe-node {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 10px;
+      text-align: center;
+      flex-shrink: 0;
+      min-width: 60px;
+    }
+    .pipe-node-n { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text3); display: block; }
+    .pipe-node-l { font-size: 11px; font-weight: 600; color: var(--text); display: block; margin-top: 2px; }
+    .pipe-arrow {
+      color: var(--text3);
+      font-size: 14px;
+      flex-shrink: 0;
+      padding: 0 3px;
+    }
+
+    /* ── TESTS BADGE ── */
+    .tests-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 0.5rem;
+    }
+    .tests-dot { width: 7px; height: 7px; border-radius: 50%; background: #1DBA8A; flex-shrink: 0; }
+
+    /* ── CONTACT ── */
+    #contact {
+      padding: 100px 5%;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 3rem;
+      align-items: start;
+    }
+    .contact-text p { color: var(--text2); line-height: 1.8; font-size: 15px; margin-bottom: 1rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 12px; }
+    .contact-link {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); transform: translateX(4px); }
+    .contact-link-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+      background: rgba(0,229,195,0.1);
+    }
+    .contact-link-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text3); }
+    .contact-link-value { font-size: 14px; font-weight: 500; color: var(--text); margin-top: 2px; }
+    .contact-form-note {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+    .contact-form-note h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px; font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+    .contact-form-note p { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 1rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2rem 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 15px;
+      color: var(--text);
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--text3);
+    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--text3);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .nav-links.mobile-open {
+        display: flex; flex-direction: column;
+        position: fixed; top: 64px; left: 0; right: 0;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem 5%;
+        gap: 1.5rem;
+      }
+      .nav-links.mobile-open + .nav-cta { display: block; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+      .project-flow { grid-template-columns: repeat(6, 1fr); }
+      .pipeline { flex-wrap: nowrap; }
+      section { padding: 70px 5%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">Kenneth<span>.</span>AI</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="https://github.com/nonsosky" class="nav-cta" target="_blank" rel="noopener">GitHub ↗</a>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div style="position:relative; overflow:hidden;">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <section id="hero">
+      <p class="hero-tag">Available for freelance &amp; collaborations</p>
+      <h1 class="hero-name">Okpara<br>Kenneth <em>Chinonso</em></h1>
+      <p class="hero-title">AI Automation Engineer</p>
+      <p class="hero-desc">
+        Building intelligent end-to-end automation pipelines with n8n, Make.com, and modern AI APIs —
+        from RAG-powered customer support to full CRM orchestration systems.
+      </p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary">View Projects →</a>
+        <a href="https://github.com/nonsosky/make-automation-projects" target="_blank" rel="noopener" class="btn-secondary">GitHub ↗</a>
+        <a href="#contact" class="btn-secondary">Get in Touch</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-n">4</div>
+          <div class="hero-stat-l">Live projects</div>
+        </div>
+        <div>
+          <div class="hero-stat-n">18+</div>
+          <div class="hero-stat-l">Tools integrated</div>
+        </div>
+        <div>
+          <div class="hero-stat-n">24/7</div>
+          <div class="hero-stat-l">Automated uptime</div>
+        </div>
+        <div>
+          <div class="hero-stat-n">24</div>
+          <div class="hero-stat-l">Tests passed</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label reveal">About Me</p>
+    <h2 class="section-title reveal">Building automation<br>that actually works</h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          I'm an <strong>AI Automation Engineer</strong> based in Lagos, Nigeria — specializing in designing
+          production-grade workflow automation systems that replace manual overhead with intelligent,
+          self-healing pipelines.
+        </p>
+        <p>
+          My work sits at the intersection of <strong>no-code/low-code orchestration</strong> (Make.com, n8n)
+          and <strong>AI integration</strong> — building systems that validate, enrich, route, and act on data
+          automatically, with full error handling and audit trails baked in.
+        </p>
+        <p>
+          Every system I build is designed for <strong>zero data loss</strong>, real-time observability, and
+          the kind of resilience that lets teams sleep soundly while the automation does the work.
+        </p>
+      </div>
+      <div class="about-cards reveal">
+        <div class="about-card">
+          <div class="about-card-icon teal">⚡</div>
+          <div>
+            <div class="about-card-title">Workflow Automation</div>
+            <div class="about-card-desc">End-to-end pipelines with Make.com and n8n — from trigger to action with full conditional branching.</div>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon blue">🤖</div>
+          <div>
+            <div class="about-card-title">AI Integration</div>
+            <div class="about-card-desc">GPT-4o-mini, vector embeddings, RAG pipelines, and intelligent escalation systems.</div>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon amber">🛡️</div>
+          <div>
+            <div class="about-card-title">Error Resilience</div>
+            <div class="about-card-desc">Multi-layer error handlers, retry logic, Slack alerts, and audit logs on every critical node.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SKILLS -->
+  <div id="skills" style="position:relative;z-index:1;">
+    <div class="skills-inner">
+      <p class="section-label reveal">Technical Skills</p>
+      <h2 class="section-title reveal">Tools &amp; Technologies</h2>
+      <div class="skills-groups reveal">
+        <div>
+          <div class="skill-group-title">Orchestration</div>
+          <div class="skill-pills">
+            <span class="skill-pill">n8n</span>
+            <span class="skill-pill">Make.com</span>
+            <span class="skill-pill">Zapier</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-title">AI &amp; ML</div>
+          <div class="skill-pills">
+            <span class="skill-pill">OpenAI GPT-4o</span>
+            <span class="skill-pill">Embeddings API</span>
+            <span class="skill-pill">RAG</span>
+            <span class="skill-pill">pgvector</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-title">Databases</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Supabase</span>
+            <span class="skill-pill">Airtable</span>
+            <span class="skill-pill">Google Sheets</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-title">CRM &amp; Task</div>
+          <div class="skill-pills">
+            <span class="skill-pill">HubSpot</span>
+            <span class="skill-pill">Trello</span>
+            <span class="skill-pill">Calendly</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-title">Messaging</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Slack</span>
+            <span class="skill-pill">Gmail</span>
+            <span class="skill-pill">Telegram Bot</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-title">APIs &amp; Data</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Webhook</span>
+            <span class="skill-pill">CoinGecko</span>
+            <span class="skill-pill">Hunter.io</span>
+            <span class="skill-pill">Numverify</span>
+            <span class="skill-pill">Typeform</span>
+            <span class="skill-pill">Postman</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label reveal">Work</p>
+    <h2 class="section-title reveal">Featured Projects</h2>
+    <p class="section-sub reveal">Production automation systems — each with full error handling, audit trails, and real-world integrations.</p>
+
+    <div class="projects-grid">
+
+      <!-- PROJECT 1 -->
+      <div class="project-card reveal" id="p1">
+        <div class="project-header" onclick="toggleProject('p1')">
+          <div class="project-num">01</div>
+          <div class="project-icon lead">🎯</div>
+          <div class="project-info">
+            <div class="project-title">Automated Lead Management System</div>
+            <div class="project-brief">Webhook-triggered scoring pipeline with 3-branch routing and full error auditability.</div>
+          </div>
+          <div class="project-toggle" id="tog-p1">+</div>
+        </div>
+        <div class="project-body" id="body-p1">
+          <div class="project-stack">
+            <span class="p-pill">Make.com</span><span class="p-pill">Webhook</span><span class="p-pill">Google Sheets</span><span class="p-pill">Slack</span><span class="p-pill">Gmail</span><span class="p-pill">Google Calendar</span><span class="p-pill">Postman</span>
+          </div>
+          <ul class="project-bullets">
+            <li>Designed <strong>end-to-end lead capture</strong> triggered via webhook, scoring and validating leads using nested <code>if()</code> conditional logic — routing across three branches based on a 0–100 score.</li>
+            <li>Integrated <strong>Google Sheets</strong> for data storage, <strong>Slack</strong> for real-time team alerts, <strong>Gmail</strong> for individual notifications via iterator loops, and <strong>Google Calendar</strong> for automated follow-up scheduling.</li>
+            <li>Implemented <strong>three error handlers</strong> on Webhook, Sheets, and Gmail modules with Slack alerts and Activity Log entries — ensuring no lead is lost and every failure is fully auditable.</li>
+          </ul>
+          <div class="project-tags">
+            <span class="p-tag blue">3-branch routing</span>
+            <span class="p-tag teal">Error auditability</span>
+            <span class="p-tag amber">Iterator Gmail loop</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 2 -->
+      <div class="project-card reveal" id="p2">
+        <div class="project-header" onclick="toggleProject('p2')">
+          <div class="project-num">02</div>
+          <div class="project-icon crypto">📈</div>
+          <div class="project-info">
+            <div class="project-title">Crypto Price Monitoring System</div>
+            <div class="project-brief">Live CoinGecko feeds with dual-channel alerts and a 60-second auto-refreshing dashboard.</div>
+          </div>
+          <div class="project-toggle" id="tog-p2">+</div>
+        </div>
+        <div class="project-body" id="body-p2">
+          <div class="project-stack">
+            <span class="p-pill">Make.com</span><span class="p-pill">CoinGecko API</span><span class="p-pill">Google Sheets</span><span class="p-pill">Telegram</span><span class="p-pill">Slack</span><span class="p-pill">Lovable</span><span class="p-pill">cron-job.org</span>
+          </div>
+          <ul class="project-bullets">
+            <li>Built automated monitoring fetching <strong>live market data</strong> from CoinGecko API, applying price-change threshold filters and delivering real-time alerts via <strong>Telegram and Slack</strong> across two independent scenario branches.</li>
+            <li>Designed a <strong>live responsive frontend dashboard</strong> using Lovable connected via a Google Sheets published CSV as a live data bridge — auto-refreshing every 60 seconds with coin prices and trend charts.</li>
+            <li>Implemented <strong>iterator loops</strong> for trending coin processing, sleep modules for API rate-limit management, and a dual-tab Sheets architecture separating live data from historical audit logs.</li>
+          </ul>
+          <div class="project-tags">
+            <span class="p-tag teal">60s live refresh</span>
+            <span class="p-tag blue">Dual alert channels</span>
+            <span class="p-tag amber">Rate limit handling</span>
+          </div>
+          <a href="https://github.com/nonsosky/make-automation-projects" class="project-link" target="_blank" rel="noopener">
+            ↗ View on GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- PROJECT 3 -->
+      <div class="project-card reveal" id="p3">
+        <div class="project-header" onclick="toggleProject('p3')">
+          <div class="project-num">03</div>
+          <div class="project-icon ai">🧠</div>
+          <div class="project-info">
+            <div class="project-title">AI-Powered Customer Support Automation</div>
+            <div class="project-brief">RAG pipeline with GPT-4o-mini, vector embeddings, escalation detection, and zero-downtime monitoring.</div>
+          </div>
+          <div class="project-toggle" id="tog-p3">+</div>
+        </div>
+        <div class="project-body" id="body-p3">
+          <div class="project-stack">
+            <span class="p-pill">n8n</span><span class="p-pill">Telegram Bot API</span><span class="p-pill">OpenAI GPT-4o-mini</span><span class="p-pill">Supabase pgvector</span><span class="p-pill">Airtable</span><span class="p-pill">Google Sheets</span><span class="p-pill">Slack</span><span class="p-pill">Gmail</span>
+          </div>
+          <ul class="project-bullets">
+            <li>Architected an <strong>intelligent support pipeline</strong> using n8n — integrating a Telegram webhook trigger with GPT-4o-mini to classify and respond to customer inquiries 24/7 with sub-second response times.</li>
+            <li>Implemented <strong>RAG using Supabase pgvector</strong>, converting policy documents into 1,536-dimensional embeddings via OpenAI API and performing cosine similarity search for contextually accurate AI responses.</li>
+            <li>Engineered a <strong>rule-based escalation system</strong> scanning AI responses for trigger phrases, routing critical issues via IF node to simultaneously alert human agents on Slack and reassure customers on Telegram.</li>
+            <li>Configured <strong>node-level error handling</strong> on HTTP Request and Airtable nodes with automated Gmail alerts including full error context for zero-downtime monitoring.</li>
+            <li>Built a <strong>centralized conversation log</strong> via Merge node aggregating all sentiment branches into Google Sheets for analytics and audit trail.</li>
+          </ul>
+          <div class="project-tags">
+            <span class="p-tag purple">RAG + pgvector</span>
+            <span class="p-tag blue">GPT-4o-mini</span>
+            <span class="p-tag teal">24/7 automated</span>
+            <span class="p-tag amber">Escalation detection</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 4 -->
+      <div class="project-card reveal" id="p4">
+        <div class="project-header" onclick="toggleProject('p4')">
+          <div class="project-num">04</div>
+          <div class="project-icon ltc">🔄</div>
+          <div class="project-info">
+            <div class="project-title">Lead-to-Customer Automation Workflow</div>
+            <div class="project-brief">11-stage n8n pipeline — Typeform to HubSpot CRM with enrichment, Calendly polling, and 3-day follow-up sequences.</div>
+          </div>
+          <div class="project-toggle" id="tog-p4">+</div>
+        </div>
+        <div class="project-body" id="body-p4">
+          <div class="project-stack">
+            <span class="p-pill">n8n</span><span class="p-pill">Typeform</span><span class="p-pill">Hunter.io</span><span class="p-pill">Numverify</span><span class="p-pill">HubSpot</span><span class="p-pill">Google Sheets</span><span class="p-pill">Trello</span><span class="p-pill">Gmail</span><span class="p-pill">Slack</span><span class="p-pill">Calendly</span><span class="p-pill">Google Apps Script</span>
+          </div>
+          <ul class="project-bullets">
+            <li>Architected <strong>3 coordinated n8n workflows</strong> — Main pipeline, Daily Digest (9AM Slack report), and hourly Calendly Booking Poller — all sharing a central Google Sheets data store.</li>
+            <li>Built an <strong>11-stage data flow</strong>: capture → email validation (Hunter.io) → phone enrichment (Numverify) → deduplication → HubSpot upsert with 3-attempt retry logic → Switch node routing → demo interest branching → Trello task creation → Slack notifications → 3-day follow-up with smart stop logic.</li>
+            <li>Implemented <strong>idempotent Calendly polling</strong> every 60 minutes using a Processed Events tab in Google Sheets to store event URIs — preventing duplicate processing on the free plan.</li>
+            <li>Protected <strong>Created At timestamps</strong> using a Google Apps Script onChange trigger that writes the field only once, preventing update operations from overwriting original submission dates.</li>
+            <li>Engineered a <strong>multi-layer error handling matrix</strong>: HubSpot failures route to Error Log → Slack #lead-errors → Gmail backup alert; enrichment failures trigger Needs Review status and Slack review alert.</li>
+          </ul>
+          <div style="margin: 1rem 0 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase;">11-stage pipeline</div>
+          <div class="pipeline">
+            <div class="pipe-node"><span class="pipe-node-n">01</span><span class="pipe-node-l">Capture</span></div>
+            <span class="pipe-arrow">→</span>
+            <div class="pipe-node"><span class="pipe-node-n">02</span><span class="pipe-node-l">Validate</span></div>
+            <span class="pipe-arrow">→</span>
+            <div class="pipe-node"><span class="pipe-node-n">03</span><span class="pipe-node-l">Enrich</span></div>
+            <span class="pipe-arrow">→</span>
+            <div class="pipe-node"><span class="pipe-node-n">04</span><span class="pipe-node-l">Branch</span></div>
+            <span class="pipe-arrow">→</span>
+            <div class="pipe-node"><span class="pipe-node-n">05</span><span class="pipe-node-l">Log</span></div>
+            <span class="pipe-arrow">→</span>
+            <div class="pipe-node"><span class="pipe-node-n">06</span><span class="pipe-node-l">CRM</span></div>
+            <span class="pipe-arrow">→</span>
+            <div class="pipe-node"><span class="pipe-node-n">07</span><span class="pipe-node-l">Route</span></div>
+            <span class="pipe-arrow">→</span>
+            <div class="pipe-node"><span class="pipe-node-n">08</span><span class="pipe-node-l">Email</span></div>
+            <span class="pipe-arrow">→</span>
+            <div class="pipe-node"><span class="pipe-node-n">09</span><span class="pipe-node-l">Task</span></div>
+            <span class="pipe-arrow">→</span>
+            <div class="pipe-node"><span class="pipe-node-n">10</span><span class="pipe-node-l">Notify</span></div>
+            <span class="pipe-arrow">→</span>
+            <div class="pipe-node"><span class="pipe-node-n">11</span><span class="pipe-node-l">Follow-up</span></div>
+          </div>
+          <div class="project-tags">
+            <span class="p-tag amber">HubSpot + retry logic</span>
+            <span class="p-tag teal">Idempotency design</span>
+            <span class="p-tag blue">3-day follow-up</span>
+          </div>
+          <div class="tests-badge">
+            <span class="tests-dot"></span>
+            All 24 test cases passed — including duplicate detection, retry exhaustion, and Calendly idempotency
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label reveal">Contact</p>
+    <h2 class="section-title reveal">Let's build something<br>together</h2>
+    <div class="contact-grid">
+      <div class="contact-text reveal">
+        <p>
+          I'm open to freelance projects, consulting engagements, and full-time opportunities in AI automation,
+          workflow engineering, and integration architecture.
+        </p>
+        <p>
+          Whether you need a single automation workflow or a full orchestration system, feel free to reach out.
+        </p>
+        <div class="contact-links" style="margin-top: 1.5rem;">
+          <a href="https://github.com/nonsosky" target="_blank" rel="noopener" class="contact-link">
+            <div class="contact-link-icon">⌥</div>
+            <div>
+              <div class="contact-link-label">GitHub</div>
+              <div class="contact-link-value">github.com/nonsosky</div>
+            </div>
+          </a>
+          <a href="https://nonsosky.github.io/portfolio/" target="_blank" rel="noopener" class="contact-link">
+            <div class="contact-link-icon">🔗</div>
+            <div>
+              <div class="contact-link-label">Data Engineering Portfolio</div>
+              <div class="contact-link-value">nonsosky.github.io/portfolio</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="contact-form-note">
+          <h3>Available for Projects</h3>
+          <p>Currently accepting freelance and consulting work in:</p>
+          <div class="skill-pills" style="margin-bottom:1rem;">
+            <span class="skill-pill">AI Workflow Automation</span>
+            <span class="skill-pill">n8n / Make.com</span>
+            <span class="skill-pill">CRM Integration</span>
+            <span class="skill-pill">RAG Pipelines</span>
+            <span class="skill-pill">API Integration</span>
+          </div>
+          <a href="https://github.com/nonsosky/make-automation-projects" target="_blank" rel="noopener" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;">
+            View All Projects ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">Kenneth<span>.</span>AI</span>
+    <span class="footer-text">© 2026 Okpara Kenneth Chinonso</span>
+    <div class="footer-links">
+      <a href="#hero">Top</a>
+      <a href="#projects">Projects</a>
+      <a href="https://github.com/nonsosky" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('mobile-open');
+    }
+
+    // Project accordion
+    function toggleProject(id) {
+      var body = document.getElementById('body-' + id);
+      var tog  = document.getElementById('tog-' + id);
+      var isOpen = body.classList.contains('open');
+      // close all
+      document.querySelectorAll('.project-body').forEach(function(el){ el.classList.remove('open'); });
+      document.querySelectorAll('.project-toggle').forEach(function(el){ el.classList.remove('open'); });
+      if (!isOpen) {
+        body.classList.add('open');
+        tog.classList.add('open');
+      }
+    }
+
+    // Scroll reveal
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el); });
+
+    // Stagger reveals inside sections
+    document.querySelectorAll('section, #skills').forEach(function(sec) {
+      var items = sec.querySelectorAll('.reveal');
+      items.forEach(function(el, i) {
+        el.style.transitionDelay = (i * 0.08) + 's';
+      });
+    });
+  </script>
+</body>
+</html>
